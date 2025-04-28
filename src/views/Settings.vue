@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useColorMode } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline';
