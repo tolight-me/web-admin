@@ -43,7 +43,7 @@ onMounted(() => {
     <AppSidebar :is-open="sidebarOpen" @toggle="toggleSidebar" class="dark:bg-gray-900" />
     
     <div class="flex flex-col flex-1 overflow-x-hidden">
-      <AppHeader @toggle-sidebar="toggleSidebar" class="dark:bg-gray-900"/>
+      <AppHeader @toggle-sidebar="toggleSidebar" class="dark:bg-gray-900 shadow-md"/>
       
       <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-100 dark:bg-gray-800">
         <router-view v-slot="{ Component }">

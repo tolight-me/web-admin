@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useColorMode } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline';
 
 const colorMode = useColorMode();
+const { locale, t } = useI18n();
 const isLoading = ref(true);
 const activeTab = ref('general');
 
@@ -15,7 +17,7 @@ const generalSettings = ref({
   allowRegistration: true,
   requireEmailVerification: true,
   showNotifications: true,
-  defaultLanguage: 'en',
+  defaultLanguage: locale.value,
   timezone: 'UTC'
 });
 
@@ -47,6 +49,9 @@ const saveSettings = () => {
   // Update color mode
   colorMode.value = appearanceSettings.value.theme;
   
+  // Update language
+  locale.value = generalSettings.value.defaultLanguage;
+  
   // Simulate API call
   setTimeout(() => {
     isSaving.value = false;
@@ -55,18 +60,15 @@ const saveSettings = () => {
 };
 
 onMounted(() => {
-  // Simulate loading
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 800);
+  isLoading.value = false;
 });
 </script>
 
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="text-2xl font-semibold">Settings</h1>
-      <p class="text-sm text-gray-600 dark:text-gray-400">Configure your application settings</p>
+      <h1 class="text-2xl font-semibold">{{ t('settings.title') }}</h1>
+      <p class="text-sm text-gray-600 dark:text-gray-400">{{ t('settings.subtitle') }}</p>
     </div>
 
     <div v-if="isLoading" class="flex items-center justify-center h-64">
@@ -92,7 +94,7 @@ onMounted(() => {
                     : 'border-transparent hover:bg-gray-50 dark:hover:bg-gray-700'
                 ]"
               >
-                <span>General</span>
+                <span>{{ t('settings.general') }}</span>
               </button>
             </li>
             <li>
@@ -105,7 +107,7 @@ onMounted(() => {
                     : 'border-transparent hover:bg-gray-50 dark:hover:bg-gray-700'
                 ]"
               >
-                <span>Appearance</span>
+                <span>{{ t('settings.appearance') }}</span>
               </button>
             </li>
             <li>
@@ -118,7 +120,7 @@ onMounted(() => {
                     : 'border-transparent hover:bg-gray-50 dark:hover:bg-gray-700'
                 ]"
               >
-                <span>Notifications</span>
+                <span>{{ t('settings.notifications') }}</span>
               </button>
             </li>
             <li>
@@ -131,7 +133,7 @@ onMounted(() => {
                     : 'border-transparent hover:bg-gray-50 dark:hover:bg-gray-700'
                 ]"
               >
-                <span>Security</span>
+                <span>{{ t('settings.security') }}</span>
               </button>
             </li>
             <li>
@@ -144,7 +146,7 @@ onMounted(() => {
                     : 'border-transparent hover:bg-gray-50 dark:hover:bg-gray-700'
                 ]"
               >
-                <span>API</span>
+                <span>{{ t('settings.api') }}</span>
               </button>
             </li>
           </ul>
@@ -156,11 +158,11 @@ onMounted(() => {
         <div class="card p-6">
           <!-- General Settings -->
           <form v-if="activeTab === 'general'" @submit.prevent="saveSettings">
-            <h2 class="text-xl font-semibold mb-4">General Settings</h2>
+            <h2 class="text-xl font-semibold mb-4">{{ t('settings.generalSettings') }}</h2>
             
             <div class="mb-4">
               <label for="siteName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Site Name
+                {{ t('settings.siteName') }}
               </label>
               <input
                 v-model="generalSettings.siteName"
@@ -172,7 +174,7 @@ onMounted(() => {
             
             <div class="mb-4">
               <label for="siteDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Site Description
+                {{ t('settings.siteDescription') }}
               </label>
               <textarea
                 v-model="generalSettings.siteDescription"
@@ -185,7 +187,7 @@ onMounted(() => {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label for="logoUrl" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Logo URL
+                  {{ t('settings.logoUrl') }}
                 </label>
                 <input
                   v-model="generalSettings.logoUrl"
@@ -198,7 +200,7 @@ onMounted(() => {
               
               <div>
                 <label for="faviconUrl" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Favicon URL
+                  {{ t('settings.faviconUrl') }}
                 </label>
                 <input
                   v-model="generalSettings.faviconUrl"
@@ -213,25 +215,21 @@ onMounted(() => {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label for="defaultLanguage" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Default Language
+                  {{ t('settings.defaultLanguage') }}
                 </label>
                 <select
                   v-model="generalSettings.defaultLanguage"
                   id="defaultLanguage"
                   class="form-control"
                 >
+                  <option value="zh">中文</option>
                   <option value="en">English</option>
-                  <option value="es">Spanish</option>
-                  <option value="fr">French</option>
-                  <option value="de">German</option>
-                  <option value="ja">Japanese</option>
-                  <option value="zh">Chinese</option>
                 </select>
               </div>
               
               <div>
                 <label for="timezone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Timezone
+                  {{ t('settings.timezone') }}
                 </label>
                 <select
                   v-model="generalSettings.timezone"
@@ -259,7 +257,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="allowRegistration" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Allow user registration
+                  {{ t('settings.allowRegistration') }}
                 </label>
               </div>
               
@@ -271,7 +269,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="requireEmailVerification" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Require email verification
+                  {{ t('settings.requireEmailVerification') }}
                 </label>
               </div>
               
@@ -283,7 +281,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="showNotifications" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Show system notifications
+                  {{ t('settings.showSystemNotifications') }}
                 </label>
               </div>
             </div>
@@ -294,34 +292,34 @@ onMounted(() => {
                 class="btn btn-primary"
                 :disabled="isSaving"
               >
-                <span v-if="isSaving">Saving...</span>
-                <span v-else>Save Changes</span>
+                <span v-if="isSaving">{{ t('settings.saving') }}</span>
+                <span v-else>{{ t('settings.save') }}</span>
               </button>
             </div>
           </form>
 
           <!-- Appearance Settings -->
           <form v-if="activeTab === 'appearance'" @submit.prevent="saveSettings">
-            <h2 class="text-xl font-semibold mb-4">Appearance Settings</h2>
+            <h2 class="text-xl font-semibold mb-4">{{ t('settings.appearanceSettings') }}</h2>
             
             <div class="mb-4">
               <label for="theme" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Theme
+                {{ t('settings.theme') }}
               </label>
               <select
                 v-model="appearanceSettings.theme"
                 id="theme"
                 class="form-control"
               >
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
+                <option value="light">{{ t('settings.light') }}</option>
+                <option value="dark">{{ t('settings.dark') }}</option>
               </select>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div>
                 <label for="primaryColor" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Primary Color
+                  {{ t('settings.primaryColor') }}
                 </label>
                 <div class="flex items-center">
                   <input
@@ -340,7 +338,7 @@ onMounted(() => {
               
               <div>
                 <label for="secondaryColor" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Secondary Color
+                  {{ t('settings.secondaryColor') }}
                 </label>
                 <div class="flex items-center">
                   <input
@@ -359,7 +357,7 @@ onMounted(() => {
               
               <div>
                 <label for="accentColor" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Accent Color
+                  {{ t('settings.accentColor') }}
                 </label>
                 <div class="flex items-center">
                   <input
@@ -379,7 +377,7 @@ onMounted(() => {
             
             <div class="mb-4">
               <label for="tableRowsPerPage" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Table Rows Per Page
+                {{ t('settings.tableRowsPerPage') }}
               </label>
               <select
                 v-model="appearanceSettings.tableRowsPerPage"
@@ -405,7 +403,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="sidebarCollapsed" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Collapse sidebar by default
+                  {{ t('settings.collapseSidebar') }}
                 </label>
               </div>
               
@@ -417,7 +415,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="showBreadcrumbs" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Show breadcrumbs
+                  {{ t('settings.showBreadcrumbs') }}
                 </label>
               </div>
               
@@ -429,7 +427,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="animationsEnabled" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Enable animations
+                  {{ t('settings.enableAnimations') }}
                 </label>
               </div>
             </div>
@@ -440,15 +438,15 @@ onMounted(() => {
                 class="btn btn-primary"
                 :disabled="isSaving"
               >
-                <span v-if="isSaving">Saving...</span>
-                <span v-else>Save Changes</span>
+                <span v-if="isSaving">{{ t('settings.saving') }}</span>
+                <span v-else>{{ t('settings.save') }}</span>
               </button>
             </div>
           </form>
 
           <!-- Notifications Settings -->
           <form v-if="activeTab === 'notifications'" @submit.prevent="saveSettings">
-            <h2 class="text-xl font-semibold mb-4">Notification Settings</h2>
+            <h2 class="text-xl font-semibold mb-4">{{ t('settings.notificationSettings') }}</h2>
             
             <div class="mb-6 space-y-3">
               <div class="flex items-center">
@@ -459,7 +457,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="emailNotifications" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Email notifications
+                  {{ t('settings.emailNotifications') }}
                 </label>
               </div>
               
@@ -471,7 +469,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="pushNotifications" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Push notifications
+                  {{ t('settings.pushNotifications') }}
                 </label>
               </div>
               
@@ -483,7 +481,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="dailyDigest" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Daily digest email
+                  {{ t('settings.dailyDigest') }}
                 </label>
               </div>
               
@@ -495,7 +493,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="securityAlerts" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Security alerts
+                  {{ t('settings.securityAlerts') }}
                 </label>
               </div>
               
@@ -507,7 +505,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="marketingEmails" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Marketing emails
+                  {{ t('settings.marketingEmails') }}
                 </label>
               </div>
               
@@ -519,7 +517,7 @@ onMounted(() => {
                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label for="soundEnabled" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Enable notification sounds
+                  {{ t('settings.soundEnabled') }}
                 </label>
               </div>
             </div>
@@ -531,7 +529,7 @@ onMounted(() => {
                 </div>
                 <div class="ml-3">
                   <p class="text-sm text-blue-700 dark:text-blue-300">
-                    Email notifications will be sent to the email address associated with your account.
+                    {{ t('settings.emailNotificationInfo') }}
                   </p>
                 </div>
               </div>
@@ -543,22 +541,22 @@ onMounted(() => {
                 class="btn btn-primary"
                 :disabled="isSaving"
               >
-                <span v-if="isSaving">Saving...</span>
-                <span v-else>Save Changes</span>
+                <span v-if="isSaving">{{ t('settings.saving') }}</span>
+                <span v-else>{{ t('settings.save') }}</span>
               </button>
             </div>
           </form>
 
           <!-- Security Settings -->
           <div v-if="activeTab === 'security'">
-            <h2 class="text-xl font-semibold mb-4">Security Settings</h2>
+            <h2 class="text-xl font-semibold mb-4">{{ t('settings.securitySettings') }}</h2>
             
             <div class="mb-6">
-              <h3 class="text-lg font-medium mb-2">Password</h3>
+              <h3 class="text-lg font-medium mb-2">{{ t('settings.password') }}</h3>
               <div class="space-y-4">
                 <div>
                   <label for="currentPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Current Password
+                    {{ t('settings.currentPassword') }}
                   </label>
                   <input
                     id="currentPassword"
@@ -569,7 +567,7 @@ onMounted(() => {
                 
                 <div>
                   <label for="newPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    New Password
+                    {{ t('settings.newPassword') }}
                   </label>
                   <input
                     id="newPassword"
@@ -580,7 +578,7 @@ onMounted(() => {
                 
                 <div>
                   <label for="confirmPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Confirm New Password
+                    {{ t('settings.confirmPassword') }}
                   </label>
                   <input
                     id="confirmPassword"
@@ -591,37 +589,37 @@ onMounted(() => {
                 
                 <div>
                   <button class="btn btn-primary">
-                    Update Password
+                    {{ t('settings.updatePassword') }}
                   </button>
                 </div>
               </div>
             </div>
             
             <div class="mb-6">
-              <h3 class="text-lg font-medium mb-2">Two-Factor Authentication</h3>
+              <h3 class="text-lg font-medium mb-2">{{ t('settings.twoFactorAuth') }}</h3>
               <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                Add an extra layer of security to your account by enabling two-factor authentication.
+                {{ t('settings.twoFactorAuthDesc') }}
               </p>
               
               <button class="btn btn-primary">
-                Enable Two-Factor Authentication
+                {{ t('settings.enableTwoFactorAuth') }}
               </button>
             </div>
             
             <div class="mb-6">
-              <h3 class="text-lg font-medium mb-2">Active Sessions</h3>
+              <h3 class="text-lg font-medium mb-2">{{ t('settings.activeSessions') }}</h3>
               <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                These are the devices that are currently logged into your account.
+                {{ t('settings.activeSessionsDesc') }}
               </p>
               
               <div class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md overflow-hidden">
                 <div class="p-4 border-b border-gray-200 dark:border-gray-600">
                   <div class="flex items-center justify-between">
                     <div>
-                      <div class="font-medium">Current Session</div>
+                      <div class="font-medium">{{ t('settings.currentSession') }}</div>
                       <div class="text-sm text-gray-600 dark:text-gray-400">Chrome on macOS</div>
                     </div>
-                    <div class="badge badge-success">Active</div>
+                    <div class="badge badge-success">{{ t('settings.active') }}</div>
                   </div>
                 </div>
                 
@@ -629,10 +627,10 @@ onMounted(() => {
                   <div class="flex items-center justify-between">
                     <div>
                       <div class="font-medium">iPhone App</div>
-                      <div class="text-sm text-gray-600 dark:text-gray-400">iOS 16 · Last active 2 hours ago</div>
+                      <div class="text-sm text-gray-600 dark:text-gray-400">iOS 16 · {{ t('settings.lastActive') }} 2 hours ago</div>
                     </div>
                     <button class="text-sm text-error-600 dark:text-error-400 hover:underline">
-                      Logout
+                      {{ t('settings.logout') }}
                     </button>
                   </div>
                 </div>
@@ -642,22 +640,22 @@ onMounted(() => {
 
           <!-- API Settings -->
           <div v-if="activeTab === 'api'">
-            <h2 class="text-xl font-semibold mb-4">API Settings</h2>
+            <h2 class="text-xl font-semibold mb-4">{{ t('settings.apiSettings') }}</h2>
             
             <div class="mb-6">
-              <h3 class="text-lg font-medium mb-2">API Keys</h3>
+              <h3 class="text-lg font-medium mb-2">{{ t('settings.apiKeys') }}</h3>
               <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                Manage your API keys for accessing the Admin Console API.
+                {{ t('settings.apiKeysDesc') }}
               </p>
               
               <div class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md overflow-hidden mb-4">
                 <div class="p-4 border-b border-gray-200 dark:border-gray-600">
                   <div class="flex items-center justify-between">
                     <div>
-                      <div class="font-medium">Production Key</div>
-                      <div class="text-sm text-gray-600 dark:text-gray-400">Created on Sep 12, 2023</div>
+                      <div class="font-medium">{{ t('settings.productionKey') }}</div>
+                      <div class="text-sm text-gray-600 dark:text-gray-400">{{ t('settings.createdOn') }} Sep 12, 2023</div>
                     </div>
-                    <div class="badge badge-primary">Active</div>
+                    <div class="badge badge-primary">{{ t('settings.active') }}</div>
                   </div>
                 </div>
                 
@@ -666,51 +664,51 @@ onMounted(() => {
                     •••••••••••••••••••••••••••••••
                   </div>
                   <button class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
-                    Reveal
+                    {{ t('settings.reveal') }}
                   </button>
                   <button class="ml-4 text-sm text-error-600 dark:text-error-400 hover:underline">
-                    Revoke
+                    {{ t('settings.revoke') }}
                   </button>
                 </div>
               </div>
               
               <button class="btn btn-primary">
-                Generate New API Key
+                {{ t('settings.generateNewApiKey') }}
               </button>
             </div>
             
             <div class="mb-6">
-              <h3 class="text-lg font-medium mb-2">Webhooks</h3>
+              <h3 class="text-lg font-medium mb-2">{{ t('settings.webhooks') }}</h3>
               <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                Configure webhooks to receive notifications when events occur.
+                {{ t('settings.webhooksDesc') }}
               </p>
               
               <div class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md overflow-hidden mb-4">
                 <div class="p-4 border-b border-gray-200 dark:border-gray-600">
                   <div class="flex items-center justify-between">
                     <div>
-                      <div class="font-medium">User Events</div>
+                      <div class="font-medium">{{ t('settings.userEvents') }}</div>
                       <div class="text-sm text-gray-600 dark:text-gray-400">https://example.com/webhooks/users</div>
                     </div>
-                    <div class="badge badge-success">Active</div>
+                    <div class="badge badge-success">{{ t('settings.active') }}</div>
                   </div>
                 </div>
                 
                 <div class="px-4 py-3 bg-gray-50 dark:bg-gray-800 flex items-center">
                   <div class="flex-1 text-sm text-gray-600 dark:text-gray-400">
-                    Events: user.created, user.updated, user.deleted
+                    {{ t('settings.events') }}: user.created, user.updated, user.deleted
                   </div>
                   <button class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
-                    Edit
+                    {{ t('settings.edit') }}
                   </button>
                   <button class="ml-4 text-sm text-error-600 dark:text-error-400 hover:underline">
-                    Delete
+                    {{ t('settings.delete') }}
                   </button>
                 </div>
               </div>
               
               <button class="btn btn-primary">
-                Add Webhook
+                {{ t('settings.addWebhook') }}
               </button>
             </div>
           </div>

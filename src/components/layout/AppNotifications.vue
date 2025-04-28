@@ -57,49 +57,46 @@ const getTypeClass = (type: string) => {
 </script>
 
 <template>
-  <div class="absolute right-0 w-80 mt-2 bg-white rounded-md shadow-lg dark:bg-gray-800 z-50">
+  <div class="w-64 sm:w-80 px-2 mt-2 bg-white dark:bg-gray-900 rounded-md shadow-lg z-50 max-w-[calc(100vw-2rem)] origin-top-right border border-gray-200 dark:border-gray-700">
     <div class="p-2 border-b border-gray-200 dark:border-gray-700">
       <div class="flex items-center justify-between">
-        <h3 class="text-sm font-semibold">Notifications</h3>
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white">通知</h3>
         <button
           @click="close"
           class="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
-          <XMarkIcon class="w-4 h-4" />
+          <XMarkIcon class="w-4 h-4 text-gray-500 dark:text-gray-400" />
         </button>
       </div>
     </div>
     
-    <div class="max-h-96 overflow-y-auto">
+    <div class="max-h-72 sm:max-h-96 overflow-y-auto">
       <div v-if="notifications.length === 0" class="py-4 text-center text-gray-500 dark:text-gray-400">
-        No notifications
+        没有通知
       </div>
       
-      <div v-else>
+      <div v-else class="py-1">
         <div
           v-for="notification in notifications"
           :key="notification.id"
           @click="markAsRead(notification.id)"
-          class="p-3 border-b border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150"
-          :class="{ 'bg-gray-50 dark:bg-gray-700': !notification.read }"
+          class="px-3 py-2 border-t first:border-t-0 border-gray-200 dark:border-gray-800 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
+          :class="{ 'bg-gray-50 dark:bg-gray-800': !notification.read }"
         >
-          <div class="flex items-start">
-            <div :class="[getTypeClass(notification.type), 'w-2 h-2 mt-1.5 rounded-full']"></div>
-            <div class="ml-3 flex-1">
-              <div class="flex items-center justify-between">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ notification.title }}</p>
-                <span class="text-xs text-gray-500 dark:text-gray-400">{{ notification.time }}</span>
-              </div>
-              <p class="text-xs text-gray-600 dark:text-gray-300 mt-1">{{ notification.message }}</p>
+          <div class="flex">
+            <div :class="[getTypeClass(notification.type), 'w-2 h-2 mt-1.5 mr-3 rounded-full flex-shrink-0']"></div>
+            <div class="flex-1 overflow-hidden">
+              <p class="text-sm font-medium text-gray-900 dark:text-white">{{ notification.title }}</p>
+              <p class="text-xs text-gray-600 dark:text-gray-400 mt-0.5 line-clamp-2">{{ notification.message }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
     
-    <div class="p-2 border-t border-gray-200 dark:border-gray-700">
-      <button class="w-full text-center text-xs text-primary-600 dark:text-primary-400 hover:underline">
-        View all notifications
+    <div class="p-2 border-t border-gray-200 dark:border-gray-700 text-right">
+      <button class="text-xs text-primary-600 dark:text-primary-400 hover:underline">
+        查看所有通知
       </button>
     </div>
   </div>

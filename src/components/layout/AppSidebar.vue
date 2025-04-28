@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 import { 
   HomeIcon, 
   UsersIcon, 
@@ -15,17 +17,18 @@ defineProps<{
 }>();
 
 const emit = defineEmits(['toggle']);
-
+const { t } = useI18n();
 const route = useRoute();
 
-const navigation = [
-  { name: 'Dashboard', icon: HomeIcon, path: '/' },
-  { name: 'Users', icon: UsersIcon, path: '/users' },
-  { name: 'Analytics', icon: ChartBarIcon, path: '/analytics' },
-  { name: 'Notifications', icon: BellAlertIcon, path: '/notifications' },
-  { name: 'Reports', icon: DocumentTextIcon, path: '/reports' },
-  { name: 'Settings', icon: Cog6ToothIcon, path: '/settings' },
-];
+// 使用计算属性使菜单响应语言变化
+const navigation = computed(() => [
+  { name: t('sidebar.dashboard'), icon: HomeIcon, path: '/' },
+  { name: t('sidebar.users'), icon: UsersIcon, path: '/users' },
+  { name: t('sidebar.analytics'), icon: ChartBarIcon, path: '/analytics' },
+  { name: t('sidebar.notifications'), icon: BellAlertIcon, path: '/notifications' },
+  { name: t('sidebar.reports'), icon: DocumentTextIcon, path: '/reports' },
+  { name: t('sidebar.settings'), icon: Cog6ToothIcon, path: '/settings' },
+]);
 
 const isActive = (path: string) => {
   return route.path === path;
@@ -46,13 +49,13 @@ const isActive = (path: string) => {
           <div class="w-8 h-8 bg-primary-500 rounded-md flex items-center justify-center flex-shrink-0">
             <span class="text-white font-bold">A</span>
           </div>
-          <span v-if="isOpen" class="ml-3 text-lg font-semibold dark:text-white transition-opacity duration-300">Admin</span>
+          <span v-if="isOpen" class="ml-3 text-lg font-semibold dark:text-white transition-opacity duration-300">{{ t('sidebar.admin') }}</span>
         </div>
       </div>
       <div class="mt-6">
         <nav>
           <ul>
-            <li v-for="item in navigation" :key="item.name" 
+            <li v-for="item in navigation" :key="item.path" 
               :class="['mb-2 px-0 py-1 mx-2']">
               <router-link
                 :to="item.path"
@@ -80,7 +83,7 @@ const isActive = (path: string) => {
           ]"
         >
           <component :is="ArrowLeftOnRectangleIcon" class="w-6 h-6" />
-          <span v-if="isOpen" class="ml-3 whitespace-nowrap transition-opacity duration-300">Logout</span>
+          <span v-if="isOpen" class="ml-3 whitespace-nowrap transition-opacity duration-300">{{ t('sidebar.logout') }}</span>
         </router-link>
       </div>
     </div>
