@@ -54,7 +54,12 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(
+    // @ts-expect-error 未使用的参数
+    to, 
+    // @ts-expect-error 未使用的参数
+    from, 
+    savedPosition) {
     if (savedPosition) {
       return savedPosition;
     } else {
@@ -64,7 +69,10 @@ const router = createRouter({
 });
 
 // Update page title
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, 
+  // @ts-expect-error 未使用的参数
+  from, 
+  next) => {
   document.title = to.meta.title ? `${to.meta.title} | Admin Console` : 'Admin Console';
   next();
 });

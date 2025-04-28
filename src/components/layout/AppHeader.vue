@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useColorMode } from '@vueuse/core';
-import { BellIcon, MoonIcon, SunIcon, Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { BellIcon, MoonIcon, SunIcon, Bars3Icon } from '@heroicons/vue/24/outline';
 import AppNotifications from './AppNotifications.vue';
 
 const emit = defineEmits(['toggle-sidebar']);

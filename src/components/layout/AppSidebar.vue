@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { 
   HomeIcon, 
@@ -11,7 +10,7 @@ import {
   ArrowLeftOnRectangleIcon
 } from '@heroicons/vue/24/outline';
 
-const props = defineProps<{
+defineProps<{
   isOpen: boolean
 }>();
 

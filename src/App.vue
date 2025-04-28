@@ -38,7 +38,7 @@ onMounted(() => {
 <template>
   <div :class="[
     'flex h-screen antialiased bg-gray-100 dark:bg-gray-900 transition-colors duration-300',
-    colorMode.value === 'dark' ? 'dark' : 'light'
+    colorMode === 'dark' ? 'dark' : 'light'
   ]">
     <AppSidebar :is-open="sidebarOpen" @toggle="toggleSidebar" class="dark:bg-gray-900" />
     
