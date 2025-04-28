@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useColorMode } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline';
+import { useLangStore } from '../stores/langStore';
 
 const colorMode = useColorMode();
-const { locale, t } = useI18n();
+const { t } = useI18n();
+const langStore = useLangStore();
 const isLoading = ref(true);
 const activeTab = ref('general');
 
@@ -17,8 +19,13 @@ const generalSettings = ref({
   allowRegistration: true,
   requireEmailVerification: true,
   showNotifications: true,
-  defaultLanguage: locale.value,
+  defaultLanguage: langStore.language,
   timezone: 'UTC'
+});
+
+// 监听语言store的变化，更新设置中的默认语言
+watch(() => langStore.language, (newLang) => {
+  generalSettings.value.defaultLanguage = newLang;
 });
 
 const appearanceSettings = ref({
@@ -49,8 +56,8 @@ const saveSettings = () => {
   // Update color mode
   colorMode.value = appearanceSettings.value.theme;
   
-  // Update language
-  locale.value = generalSettings.value.defaultLanguage;
+  // Update language using langStore
+  langStore.setLanguage(generalSettings.value.defaultLanguage);
   
   // Simulate API call
   setTimeout(() => {

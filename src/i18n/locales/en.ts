@@ -3,7 +3,11 @@ export default {
     adminDashboard: 'Admin Dashboard',
     notifications: 'Notifications',
     toggleColorMode: 'Toggle color mode',
-    userMenu: 'User menu'
+    userMenu: 'User menu',
+    profile: 'Profile',
+    settings: 'Settings',
+    logout: 'Logout',
+    language: 'Change language'
   },
   sidebar: {
     dashboard: 'Dashboard',

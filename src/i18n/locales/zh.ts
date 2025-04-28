@@ -3,7 +3,11 @@ export default {
     adminDashboard: '管理控制台',
     notifications: '通知',
     toggleColorMode: '切换颜色模式',
-    userMenu: '用户菜单'
+    userMenu: '用户菜单',
+    profile: '个人信息',
+    settings: '设置',
+    logout: '退出登录',
+    language: '切换语言'
   },
   sidebar: {
     dashboard: '仪表盘',
