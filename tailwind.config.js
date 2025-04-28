@@ -1,0 +1,125 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#E6F2FF',
+          100: '#CCE5FF',
+          200: '#99CBFF',
+          300: '#66B2FF',
+          400: '#3398FF',
+          500: '#0A84FF', // Primary
+          600: '#0869CC',
+          700: '#064F99',
+          800: '#043566',
+          900: '#021A33',
+        },
+        secondary: {
+          50: '#EEEDFC',
+          100: '#DCDAF9',
+          200: '#B9B6F4',
+          300: '#9691EE',
+          400: '#746DE9',
+          500: '#5E5CE6', // Secondary
+          600: '#4B49B8',
+          700: '#38378A',
+          800: '#26255C',
+          900: '#13122E',
+        },
+        accent: {
+          50: '#FFF4E5',
+          100: '#FFE9CC',
+          200: '#FFD399',
+          300: '#FFBD66',
+          400: '#FFA733',
+          500: '#FF9F0A', // Accent
+          600: '#CC7F08',
+          700: '#995F06',
+          800: '#664004',
+          900: '#332002',
+        },
+        success: {
+          50: '#E8F9ED',
+          100: '#D1F3DC',
+          200: '#A3E7B9',
+          300: '#75DB95',
+          400: '#48CF72',
+          500: '#30D158', // Success
+          600: '#26A746',
+          700: '#1D7D35',
+          800: '#135423',
+          900: '#0A2A12',
+        },
+        warning: {
+          50: '#FFFCE6',
+          100: '#FFF9CC',
+          200: '#FFF299',
+          300: '#FFEC66',
+          400: '#FFE633',
+          500: '#FFD60A', // Warning
+          600: '#CCAB08',
+          700: '#998006',
+          800: '#665604',
+          900: '#332B02',
+        },
+        error: {
+          50: '#FFECE9',
+          100: '#FFD9D4',
+          200: '#FFB3A9',
+          300: '#FF8C7E',
+          400: '#FF6653',
+          500: '#FF453A', // Error
+          600: '#CC372E',
+          700: '#992923',
+          800: '#661C17',
+          900: '#330E0C',
+        },
+      },
+      fontFamily: {
+        sans: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'sans-serif',
+        ],
+      },
+      spacing: {
+        '1': '4px',
+        '2': '8px',
+        '3': '12px',
+        '4': '16px',
+        '5': '20px',
+        '6': '24px',
+        '8': '32px',
+        '10': '40px',
+        '12': '48px',
+        '16': '64px',
+        '20': '80px',
+        '24': '96px',
+      },
+      boxShadow: {
+        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'DEFAULT': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+        'none': 'none',
+      },
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+    },
+  },
+  plugins: [],
+}
