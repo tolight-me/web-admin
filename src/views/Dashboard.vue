@@ -21,12 +21,16 @@ import {
   Legend 
 } from 'chart.js';
 
+interface Instrument {
+  id: number;
+  name: string;
+  // 添加其他需要的字段
+}
 
-const instruments = ref([])
+const instruments = ref<Instrument[]>([]);
 async function getInstruments() {
   const { data } = await supabase.from('msp_db').select()
-  instruments.value = data
-
+  instruments.value = data || []
   isLoading.value = false; 
 }
 

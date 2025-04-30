@@ -24,8 +24,8 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-    <div class="max-w-md w-full space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+  <div class="h-screen w-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+    <div class="max-w-md w-full mx-4 space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
       <div class="text-center">
         <h2 class="mt-6 text-3xl font-bold text-gray-900 dark:text-white">
           欢迎登录
