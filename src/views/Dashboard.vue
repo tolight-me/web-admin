@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { supabase } from '../api/supabase/SupabaseApi'; 
+
 import { 
   ArrowUpIcon, 
   ArrowDownIcon, 
@@ -18,6 +20,16 @@ import {
   Tooltip, 
   Legend 
 } from 'chart.js';
+
+
+const instruments = ref([])
+async function getInstruments() {
+  const { data } = await supabase.from('msp_db').select()
+  instruments.value = data
+
+  isLoading.value = false; 
+}
+
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -126,10 +138,8 @@ const recentActivities = ref([
 const isLoading = ref(true);
 
 onMounted(() => {
-  // Simulate loading
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 800);
+  getInstruments(); 
+ 
 });
 
 const getStatColorClass = (color: string) => {
@@ -147,7 +157,10 @@ const getStatColorClass = (color: string) => {
   <div>
     <div class="mb-6">
       <h1 class="text-2xl font-semibold">Dashboard</h1>
-      <p class="text-sm text-gray-600 dark:text-gray-400">Welcome to your admin dashboard</p>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+      Welcome to your admin dashboard
+      {{ instruments }}
+      </p>
     </div>
 
     <div v-if="isLoading" class="flex items-center justify-center h-64">
